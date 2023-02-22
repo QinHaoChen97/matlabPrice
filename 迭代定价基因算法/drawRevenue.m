@@ -10,9 +10,9 @@ pt=C1*C2/4;
 %当p>pt时，只会取B0点，此时只会的效用为
 ut=C1/2-p*B0;
 
-C1_vec = [80,80,80]; %C1_vec(i)为第i个用户的C1参数,C2_vec,B0_vec同理
-C2_vec = [0.5,0.5,0.5];
-B0_vec = [20,30,40];
+C1_vec = [80,100,120,140,180]; %C1_vec(i)为第i个用户的C1参数,C2_vec,B0_vec同理
+C2_vec = [0.5,0.5,0.5,0.5,0.5];
+B0_vec = [40,40,40,40,40];
 C1_len = length(C1_vec);
 C2_len = length(C2_vec);
 B0_len = length(B0_vec);
@@ -36,7 +36,7 @@ for i=1:C1_len
     bmax_vec{i} = matlabFunction(tem_bmax);
 end
 
-price = 0:0.1:5;
+price = 0:0.01:4;
 R = [];
 bandwidth=[];  %列数为len
 %计算在价格p时用户的带宽
@@ -51,20 +51,24 @@ p_suitable = price(index);
 figure;
 hold on
 yyaxis left;
-plot(price,sumBandwidth,'-','MarkerSize',3,'Color','#0072BD');
+%plot(price,sumBandwidth,'-','MarkerSize',3,'Color','#0072BD');
 plot(price,bandwidth(:,1),'r--');
 plot(price,bandwidth(:,2),'g--');
 plot(price,bandwidth(:,3),'b--');
+plot(price,bandwidth(:,4),'c--');
+plot(price,bandwidth(:,5),'m--');
 xlabel('Price')
 ylabel('Bandwidth')
 yyaxis right;
 plot(price,R,'-*','Color','#D95319');
 ylabel('Revenue')
-%plot(price,bandwidth(:,3),'b');
 user1 = strcat('用户1带宽   ','C1=',string(C1_vec(1)),',C2=',string(C2_vec(1)),',B0=',string(B0_vec(1)));
 user2 = strcat('用户2带宽   ','C1='+string(C1_vec(2)),',C2='+string(C2_vec(2)),',B0=',string(B0_vec(2)));
 user3 = strcat('用户3带宽   ','C1='+string(C1_vec(3)),',C2='+string(C2_vec(3)),',B0=',string(B0_vec(3)));
-legend('当前出价总带宽',user1,user2,user3,'Revenue');
-title("不同的B0和价格对用户和定价的影响");
+user4 = strcat('用户4带宽   ','C1='+string(C1_vec(4)),',C2='+string(C2_vec(4)),',B0=',string(B0_vec(4)));
+user5 = strcat('用户5带宽   ','C1='+string(C1_vec(5)),',C2='+string(C2_vec(5)),',B0=',string(B0_vec(5)));
+%legend('当前出价总带宽',user1,user2,user3,user4,user5,'Revenue');
+legend(user1,user2,user3,user4,user5,'Revenue');
+title("不同的C2对用户和定价的影响");
 hold off
 
